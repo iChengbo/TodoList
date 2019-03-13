@@ -32,7 +32,7 @@ export default {
   methods: {
     addTodo2DB: function (newTodo) {
       let _this = this
-      axios.post('http://192.168.135.8:8082/api/add',
+      axios.post('http://localhost:3000/api/add',
         Qs.stringify({message: newTodo.message, isCompleted: newTodo.isCompleted}),
         {headers: {'Content-Type': 'application/x-www-form-urlencoded'}}).then(function (res) {
         let code = res.data.code
@@ -53,7 +53,7 @@ export default {
       let _this = this
       let len = _this.todoList.length
       let isCompleted = !_this.todoList.every((todo) => todo.isCompleted)
-      axios.get('http://192.168.135.8:8082/api/updateMany', {params: {isCompleted: isCompleted}}).then(function (res) {
+      axios.get('http://localhost:3000/api/updateMany', {params: {isCompleted: isCompleted}}).then(function (res) {
         if (res.status === 200) {
           for (let i = 0; i < len; i++) {
             if (_this.todoList[i]) {
@@ -66,7 +66,7 @@ export default {
   },
   created () {
     let _this = this
-    axios.get('http://192.168.135.8:8082/api/all').then(function (res) {
+    axios.get('http://localhost:3000/api/all').then(function (res) {
       if (res.status === 200) {
         _this.todoList = res.data.todos
       } else {
