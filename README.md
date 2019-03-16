@@ -2,10 +2,11 @@
 # TodoList #
 ---
 > 一个简单的**vue + nodejs**项目，前端由vue实现，后端由**nodejs(express)**，数据库采用**mongodb**。 
-前端：vue
-后端：Nodejs
-数据库： mongodb
-
+---
+**前端**：vue
+**后端**：Nodejs
+**数据库**： mongodb
+---
 - github: [https://github.com/xiechengbo/netease_todos](https://github.com/xiechengbo/netease_todos)
 - 在线效果展示: [http://www.chengbo.xyz](http://www.chengbo.xyz)
 
