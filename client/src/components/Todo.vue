@@ -179,13 +179,10 @@ export default {
      */
     deleteAllCompleted () {
       let _this = this
-      let idString = ''
-      _this.todoList.forEach(todo => {
+      let idString = _this.todoList.map(todo => {
         let id = todo.id || todo._id
-        if (todo.isChecked) {
-          idString += id + ','
-        }
-      })
+        return id
+      }).join(',')
       deleteCompletedTask({ids: idString}).then(data => {
         _this.getAll()
       })

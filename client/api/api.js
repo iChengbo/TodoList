@@ -5,7 +5,7 @@ import axios from 'axios'
 // import Qs from 'qs'
 
 const baseUrl =
-process.env.NODE_ENV === "development" ?
+process.env.NODE_ENV !== "development" ?
 "https://nei.netease.com/api/apimock/f3e5d93d5eaceda5a624378374ad5cd7"
 : "http://148.70.150.147:8080"
 

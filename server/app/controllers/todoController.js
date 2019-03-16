@@ -63,7 +63,7 @@ exports.deleteOne = function(req, res) {
 }
 
 exports.deleteAllCompleted = function(req, res) {
-    let ids = req.body.ids.split(',').slice(0,-1)
+    let ids = req.body.ids.split(',')
     Todos.deleteMany({_id: {$in:ids}}).then(function(result) {
         responseData.code=0;
         responseData.msg = '删除成功';
