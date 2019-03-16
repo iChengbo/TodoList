@@ -1,5 +1,6 @@
 var createError = require('http-errors');
 var express = require('express');
+var favicon = require('serve-favicon');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
@@ -8,7 +9,7 @@ const mongoose = require('mongoose');
 var app = express();
 
 // mongoose 🔗
-let dbUrl = 'mongodb://localhost/todos';
+let dbUrl = 'mongodb://localhost:27017/todos';
 
 //mongoose.connect(dbUrl, { useMongoClient: true });
 mongoose.connect(dbUrl); //在 mongoose 5.x 中 useMongoClient不再需要 
@@ -21,7 +22,8 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'dist')));
+app.use(favicon(path.join(__dirname, 'public/images', 'favicon.ico')));
 
 // 跨域
 app.all("*",function (req,res,next) {

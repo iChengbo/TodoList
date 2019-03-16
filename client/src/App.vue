@@ -1,8 +1,10 @@
 <template>
   <div id="app">
-    <h1>Todos</h1>
-    <inputArea v-on:addTodo="addTodo2DB" v-on:selectAllTodos="selectAllTodos" v-bind:todoNum="todoNum"></inputArea>
-    <showArea v-bind:todoList="todoList"></showArea>
+    <div class="content">
+      <h1>Todos</h1>
+      <inputArea v-on:addTodo="addTodo2DB" v-on:selectAllTodos="selectAllTodos" v-bind:todoNum="todoNum"></inputArea>
+      <showArea v-bind:todoList="todoList"></showArea>
+    </div>
   </div>
 </template>
 
@@ -12,6 +14,10 @@ import InputArea from './components/InputArea'
 import ShowArea from './components/ShowArea'
 import axios from 'axios'
 import Qs from 'qs'
+
+let ADDR = '148.70.150.147'
+let PORT = '8080'
+let ADDR_PORT = ADDR + ':' + PORT
 
 export default {
   name: 'App',
@@ -32,7 +38,7 @@ export default {
   methods: {
     addTodo2DB: function (newTodo) {
       let _this = this
-      axios.post('http://localhost:3000/api/add',
+      axios.post('http://' + ADDR_PORT + '/api/add',
         Qs.stringify({message: newTodo.message, isCompleted: newTodo.isCompleted}),
         {headers: {'Content-Type': 'application/x-www-form-urlencoded'}}).then(function (res) {
         let code = res.data.code
@@ -53,7 +59,7 @@ export default {
       let _this = this
       let len = _this.todoList.length
       let isCompleted = !_this.todoList.every((todo) => todo.isCompleted)
-      axios.get('http://localhost:3000/api/updateMany', {params: {isCompleted: isCompleted}}).then(function (res) {
+      axios.get('http://' + ADDR_PORT + '/api/updateMany', {params: {isCompleted: isCompleted}}).then(function (res) {
         if (res.status === 200) {
           for (let i = 0; i < len; i++) {
             if (_this.todoList[i]) {
@@ -66,7 +72,7 @@ export default {
   },
   created () {
     let _this = this
-    axios.get('http://localhost:3000/api/all').then(function (res) {
+    axios.get('http://' + ADDR_PORT + '/api/all').then(function (res) {
       if (res.status === 200) {
         _this.todoList = res.data.todos
       } else {
@@ -85,5 +91,12 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+.content {
+  background: #fff;
+  margin: 130px 0 40px 0;
+  position: relative;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
 }
 </style>

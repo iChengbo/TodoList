@@ -56,6 +56,10 @@ let filters = {
   }
 }
 
+let ADDR = '148.70.150.147'
+let PORT = '8080'
+let ADDR_PORT = ADDR + ':' + PORT
+
 export default {
   name: 'ShowArea',
   data () {
@@ -91,7 +95,7 @@ export default {
     // 设置所有todo为已完成
     toChecked (todo, index) {
       // console.log('已完成？' + index)
-      axios.get('http://localhost:3000/api/update', {params: {id: todo._id, message: todo.message, isCompleted: !todo.isCompleted}}).then(function (res) {
+      axios.get('http://' + ADDR_PORT + '/api/update', {params: {id: todo._id, message: todo.message, isCompleted: !todo.isCompleted}}).then(function (res) {
         console.log(res, todo.isCompleted)
       })
     },
@@ -101,14 +105,14 @@ export default {
     },
     unEdit (todo) {
       todo.status = false
-      axios.get('http://localhost:3000/api/update', {params: {id: todo._id, message: todo.message, isCompleted: false}}).then(function (res) {
+      axios.get('http://' + ADDR_PORT + '/api/update', {params: {id: todo._id, message: todo.message, isCompleted: false}}).then(function (res) {
         // console.log('编辑完成: 此时应该变为未完成' + res)
         todo.isCompleted = false
       })
     },
     deleteTodo (item) {
       let _this = this
-      axios.get('http://localhost:3000/api/delete', {params: {id: item._id}}).then(function (res) {
+      axios.get('http://' + ADDR_PORT + '/api/delete', {params: {id: item._id}}).then(function (res) {
         if (res.status === 200) {
           _this.todoList.splice(_this.todoList.findIndex(temp => temp._id === item._id), 1)
           console.log('清空后：' + _this.todoList)
@@ -118,7 +122,7 @@ export default {
     deleteAllCompleted () {
       let _this = this
       let len = _this.todoList.length
-      axios.get('http://localhost:3000/api/deleteAllCompleted').then(function (res) {
+      axios.get('http://' + ADDR_PORT + '/api/deleteAllCompleted').then(function (res) {
         if (res.status === 200) {
           for (let i = 0; i < len; i++) {
             if (_this.todoList[i] && _this.todoList[i].isCompleted) {

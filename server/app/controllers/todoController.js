@@ -2,16 +2,15 @@
 
 const Todos = require('../models/todoModel');
 
+let responseData = {};
 
 exports.getAll = function(req, res) {
-    console.log("查询全部");
-    let responseData = {};
     Todos.find(function (err, todos) {
         if (err) {
             res.send(err);
         }
         responseData.code = 0
-        responseData.message = '成功获取所有任务'
+        responseData.msg = '成功获取所有任务'
         responseData.todos = todos
         res.json(responseData); // return all todos in JSON format
     });
@@ -19,10 +18,9 @@ exports.getAll = function(req, res) {
 
 exports.newTodo = function(req, res) {
     let message = req.body.message;
-    console.log("添加：" + message);
     if(message === ''){
         responseData.code=1;
-        responseData.message = '任务为空';
+        responseData.msg = '任务为空';
         res.json(responseData);
     }else{
         Todos.findOne({
@@ -30,7 +28,7 @@ exports.newTodo = function(req, res) {
         }).then(function(mess){
             if(mess){
                 responseData.code=4;
-                responseData.message = '任务已存在';
+                responseData.msg = '任务已存在';
                 res.json(responseData)
             }else{
                 //创建
@@ -38,8 +36,8 @@ exports.newTodo = function(req, res) {
                     message:req.body.message,
                 },function (err,todos) {
                     responseData.code=0;
-                    responseData.message = '添加成功';
-                    responseData.todos = [todos];
+                    responseData.msg = '添加成功';
+                    responseData.todos = todos;
                     res.json(responseData);
                 });
             }
@@ -49,14 +47,15 @@ exports.newTodo = function(req, res) {
 
 exports.deleteOne = function(req, res) {
     //获取要删除的分类的id
-    let id = req.query.id || '';
+    let id = req.body.id || '';
     if(id) {
         Todos.deleteOne({_id: id}, function(err, todo) {
             if(err) {
                 console.log(err);
             } else {
                 responseData.code=0;
-                responseData.message = '删除成功';
+                responseData.msg = '删除成功';
+                responseData.todos = {_id: id}
                 res.json(responseData);
             }
         })
@@ -64,27 +63,25 @@ exports.deleteOne = function(req, res) {
 }
 
 exports.deleteAllCompleted = function(req, res) {
-    Todos.deleteMany({isCompleted: true}).then(function(result) {
-        console.log(JSON.stringify(result) + '情况结果')
+    let ids = req.body.ids.split(',').slice(0,-1)
+    Todos.deleteMany({_id: {$in:ids}}).then(function(result) {
         responseData.code=0;
-        responseData.message = '删除成功';
+        responseData.msg = '删除成功';
         res.json(responseData);
     });
 }
 
 exports.updateOne = function(req, res) {
-    console.log(JSON.stringify(req.query))
-    let id = req.query.id || '';
-    let message = req.query.message || '';
-    let isCompleted = req.query.isCompleted
-    console.log("isCompleted: " + isCompleted);
+    let id = req.body.id || '';
+    let message = req.body.message || '';
+    let isChecked = req.body.isChecked
     Todos.findById(id, function (error,todo) {
-        Todos.updateOne({_id:id}, {message:message, isCompleted: isCompleted},function (err,newTodo) {
+        Todos.updateOne({_id:id}, {message:message, isChecked: isChecked},function (err,newTodo) {
             if(err){
                 console.log(err);
             }else{
                 responseData.code=0;
-                responseData.message = '修改成功';
+                responseData.msg = '修改成功';
                 res.json(responseData)
             }
         })
@@ -92,18 +89,16 @@ exports.updateOne = function(req, res) {
 }
 
 exports.updateMany = function(req, res) {
-    let isCompleted = req.query.isCompleted;
-    console.log("全变为：" + isCompleted);
+    let isChecked = req.body.isChecked
     Todos.find({}, function (err, AllTodos) {
         let needChangeId = AllTodos.map(function(td, idx) {
             return td._id;
         })
         Todos.updateMany(
             {_id: {$in: needChangeId}},
-            {$set: {isCompleted: isCompleted}}).then(function(result) {
-                console.log(result);
+            {$set: {isChecked: isChecked}}).then(function(result) {
                 responseData.code=0;
-                responseData.message = '修改成功';
+                responseData.msg = '修改成功';
                 res.json(responseData);
             })
     })
