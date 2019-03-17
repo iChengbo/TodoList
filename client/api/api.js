@@ -7,7 +7,7 @@ import axios from 'axios'
 const baseUrl =
 process.env.NODE_ENV === "development" ?
 "https://nei.netease.com/api/apimock/f3e5d93d5eaceda5a624378374ad5cd7"
-: "http://148.70.150.147:8080"
+: "http://localhost:8080"
 
 export const getAllTask = params => { return axios.get(`${baseUrl}/api/all`, {params: params}) }
 export const addTask = params => { return axios.post(`${baseUrl}/api/add`, params).then(res => res.data) }
