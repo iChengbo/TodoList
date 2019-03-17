@@ -8,7 +8,7 @@
 **数据库**： mongodb
 ---
 - github: [https://github.com/xiechengbo/netease_todos](https://github.com/xiechengbo/netease_todos)
-- 在线效果展示: [http://www.chengbo.xyz](http://www.chengbo.xyz)
+- 在线效果展示: [http://148.70.150.147:8080](http://148.70.150.147:8080)
 
 ## 前端 ##
 
