@@ -39,15 +39,15 @@
       <!-- 底部按钮 -->
       <div class="g-footer-btn" v-show="todoList.length>0">
         <span class="g-data-num">{{countCompletedNum}} item left</span>
-        <ul class="g-filter">
+        <ul class="filters">
           <li>
-            <a href="#" @click="visibility='isAll'">All</a>
+            <a href="#" :class="{selected: visibility == 'isAll'}" @click="visibility='isAll'">All</a>
           </li>
           <li>
-            <a href="#" @click="visibility='isActiving'">Activing</a>
+            <a href="#" :class="{selected: visibility == 'isActiving'}" @click="visibility='isActiving'">Activing</a>
            </li>
           <li>
-            <a href="#" @click="visibility='isChecked'">Completed</a>
+            <a href="#" :class="{selected: visibility == 'isChecked'}" @click="visibility='isChecked'">Completed</a>
           </li>
         </ul>
         <div v-show="countCompletedNum>0">
@@ -179,7 +179,8 @@ export default {
      */
     deleteAllCompleted () {
       let _this = this
-      let idString = _this.todoList.map(todo => {
+      let checkedTodos = _this.todoList.filter(todo => todo.isChecked)
+      let idString = checkedTodos.map(todo => {
         let id = todo.id || todo._id
         return id
       }).join(',')
@@ -202,7 +203,6 @@ export default {
   // 自定义focus指令
   directives: {
     'todo-focus': function (el, binding) {
-      // console.log('数据' + binding.value)
       if (binding.value) {
         el.focus()
       }
@@ -241,7 +241,6 @@ export default {
   margin: 10px 0 0;
   /* border: 1px red solid; */
 }
-
 #main .g-header .f-add .switch{
   width: 26px;
   height: 26px;
@@ -253,7 +252,7 @@ export default {
 }
 
 #main .g-header .f-add .f-add-task{
-  padding: 16px 16px 16px 60px;
+  padding: 16px 16px 16px 65px;
   border: none;
   box-sizing: border-box;
   box-shadow: inset 0 -2px 1px rgba(222, 222, 222, 0.03);
@@ -352,27 +351,51 @@ export default {
   /* background-color: red; */
 }
 
-.g-footer-btn .g-filter li{
-  /* border: 1px red solid; */
-  float: left;
-  margin: auto 10px;
-  line-height: 100%;
+.filters{
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  position: absolute;
+  right: 0;
+  left: 0;
 }
 
-.g-footer-btn .g-filter li a:hover {
-  background-color: aqua;
-  border-color: rgba(34, 26, 26, 0.1);
+.filters li{
+  display: inline;
 }
 
-.g-footer-btn .g-filter li a.selected {
-  border-color: rgba(240, 10, 10, 0);
+.filters li a{
+  color: inherit;
+  margin: 3px;
+  padding: 3px 7px;
+  text-decoration: none;
+  border: 1px solid transparent;
+  border-radius: 3px;
+}
+
+.filters li a:hover{
+  border-color: rgba(175, 47, 47, 0.1);
+}
+
+.filters li a.selected{
+  border-color: rgba(175, 47, 47, 0.2);
 }
 
 .f_delete{
   text-decoration: line-through;
   color: #bbb;
 }
-.clear-completed{
+
+.clear-completed,
+html .clear-completed:active {
+  float: right;
+  position: relative;
+  line-height: 20px;
+  text-decoration: none;
   cursor: pointer;
+}
+
+.clear-completed:hover {
+  text-decoration: underline;
 }
 </style>
