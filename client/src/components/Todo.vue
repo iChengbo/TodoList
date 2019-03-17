@@ -179,8 +179,7 @@ export default {
      */
     deleteAllCompleted () {
       let _this = this
-      let checkedTodos = _this.todoList.filter(todo => todo.isChecked)
-      let idString = checkedTodos.map(todo => {
+      let idString = _this.todoList.filter(todo => todo.isChecked).map(todo => {
         let id = todo.id || todo._id
         return id
       }).join(',')
