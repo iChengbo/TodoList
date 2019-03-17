@@ -88,6 +88,7 @@ npm install
 
 4. 浏览器访问 [http://localhost:8080](http://localhost:8080)
 
-效果图：
-![TodoList项目展示](/TodoList项目展示.png)
+- 效果图：
+
+![TodoList在线效果展示](/TodoList在线效果展示.png)
 
