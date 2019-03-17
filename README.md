@@ -7,7 +7,7 @@
 **后端**：Nodejs
 **数据库**： mongodb
 ---
-- github: [https://github.com/xiechengbo/netease_todos](https://github.com/xiechengbo/netease_todos)
+- github: [https://github.com/chengbo1995/todolist](https://github.com/chengbo1995/todolist)
 - 在线效果展示: [http://148.70.150.147:8080](http://148.70.150.147:8080)
 
 ## 前端 ##
@@ -69,14 +69,25 @@
                 ....
    ```
 ## 项目启动
-```bash
-$ npm install
-// or
-$ yarn install
-```
-## 开发环境
 
-```bash
-$ npm run dev
+1. clone 项目
+> git clone https://github.com/chengbo1995/TodoList.git
+2. 进入项目，安装依赖
 ```
+// 安装客户端依赖
+cd client
+npm install
+
+// 安装服务器端依赖
+cd server
+npm install
+```
+3. 启动项目
+- 启动服务器：npm start
+- 启动客户端：npm run dev(开发模式)
+
+4. 浏览器访问 [http://localhost:8080](http://localhost:8080)
+
+效果图：
+![TodoList项目展示](/TodoList项目展示.png)
 
