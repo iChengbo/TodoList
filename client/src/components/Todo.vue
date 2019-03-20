@@ -385,16 +385,13 @@ export default {
   color: #bbb;
 }
 
-.clear-completed,
-html .clear-completed:active {
-  float: right;
+.clear-completed{
   position: relative;
-  line-height: 20px;
-  text-decoration: none;
-  cursor: pointer;
+  width: 2.3rem; 
 }
 
 .clear-completed:hover {
+  cursor: pointer;
   text-decoration: underline;
 }
 </style>
